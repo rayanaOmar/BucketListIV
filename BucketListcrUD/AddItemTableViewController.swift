@@ -11,7 +11,7 @@ class AddItemTableViewController: UITableViewController {
 
     weak var delegate: AddItemTableViewControllerDelegate?
     var item: String?
-    var indexPath: NSIndexPath?
+    var indexPath: IndexPath?
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.cancelButtonPressed(by: self)
     }

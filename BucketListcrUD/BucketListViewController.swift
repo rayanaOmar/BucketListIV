@@ -9,7 +9,7 @@ import UIKit
 
 class BucketListViewController: UITableViewController , AddItemTableViewControllerDelegate {
     
-    func itemSaved(by controller: AddItemTableViewController, with text: String, at indexPath: NSIndexPath?) {
+    func itemSaved(by controller: AddItemTableViewController, with text: String, at indexPath: IndexPath?) {
         if let ip = indexPath {
             items[ip.row] = text
         }else{
@@ -48,20 +48,20 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
         return cell
 }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddItemSegue"{
+        if sender is UIBarButtonItem{
         let navigationController = segue.destination as! UINavigationController
         
         let addItemTableController = navigationController.topViewController as! AddItemTableViewController
         
         addItemTableController.delegate = self
-        }else if segue.identifier == "EditItemSegue"{
+        }else if sender is IndexPath{
             let navigationController = segue.destination as! UINavigationController
             
             let addItemTableController = navigationController.topViewController as! AddItemTableViewController
             
             addItemTableController.delegate = self
             
-            let indexPath = sender as! NSIndexPath
+            let indexPath = sender as! IndexPath
             let item1 = items[indexPath.row]
             addItemTableController.item = item1
             addItemTableController.indexPath = indexPath
