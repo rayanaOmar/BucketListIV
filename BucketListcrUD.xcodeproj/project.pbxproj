@@ -16,6 +16,7 @@
 		842566CE276906F5006A112E /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842566CD276906F5006A112E /* AddItemTableViewController.swift */; };
 		842566D227691A00006A112E /* AddItemTableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842566D127691A00006A112E /* AddItemTableViewControllerDelegate.swift */; };
 		842566D5276AA83F006A112E /* BucketList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 842566D3276AA83F006A112E /* BucketList.xcdatamodeld */; };
+		8425679D277891F6006A112E /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425679C277891F6006A112E /* TaskModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,9 +28,10 @@
 		842566C22768F49A006A112E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		842566C52768F49A006A112E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		842566C72768F49A006A112E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		842566CD276906F5006A112E /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddItemTableViewController.swift; path = BucketListcrUD/AddItemTableViewController.swift; sourceTree = "<group>"; };
+		842566CD276906F5006A112E /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
 		842566D127691A00006A112E /* AddItemTableViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewControllerDelegate.swift; sourceTree = "<group>"; };
 		842566D4276AA83F006A112E /* BucketList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BucketList.xcdatamodel; sourceTree = "<group>"; };
+		8425679C277891F6006A112E /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +48,6 @@
 		842566AD2768F499006A112E = {
 			isa = PBXGroup;
 			children = (
-				842566CD276906F5006A112E /* AddItemTableViewController.swift */,
 				842566B82768F499006A112E /* BucketListcrUD */,
 				842566B72768F499006A112E /* Products */,
 			);
@@ -63,6 +64,7 @@
 		842566B82768F499006A112E /* BucketListcrUD */ = {
 			isa = PBXGroup;
 			children = (
+				842566CD276906F5006A112E /* AddItemTableViewController.swift */,
 				842566B92768F499006A112E /* AppDelegate.swift */,
 				842566D3276AA83F006A112E /* BucketList.xcdatamodeld */,
 				842566BB2768F499006A112E /* SceneDelegate.swift */,
@@ -72,6 +74,7 @@
 				842566C22768F49A006A112E /* Assets.xcassets */,
 				842566C42768F49A006A112E /* LaunchScreen.storyboard */,
 				842566C72768F49A006A112E /* Info.plist */,
+				8425679C277891F6006A112E /* TaskModel.swift */,
 			);
 			path = BucketListcrUD;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 				842566BA2768F499006A112E /* AppDelegate.swift in Sources */,
 				842566BC2768F499006A112E /* SceneDelegate.swift in Sources */,
 				842566D227691A00006A112E /* AddItemTableViewControllerDelegate.swift in Sources */,
+				8425679D277891F6006A112E /* TaskModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

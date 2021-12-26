@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AddItemTableViewControllerDelegate: AnyObject{
-    func itemSaved(by controller: AddItemTableViewController, with text: String, at indexPath: IndexPath?)
+    func itemSaved( with text: String, at indexPath: IndexPath?)
     
     func cancelButtonPressed(by controller: AddItemTableViewController)
     
