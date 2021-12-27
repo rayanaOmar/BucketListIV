@@ -80,15 +80,20 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        items.remove(at: indexPath.row)
+//        items.remove(at: indexPath.row)
+        deleteTask()
         tableView.reloadData()
         
     }
     
     //Function Section
     func itemSaved(by controller: AddItemTableViewController, with text: String, at indexPath: IndexPath?) {
+        
+        if let ip = indexPath{
+            updateTask(ip.row, text)
+        }else{
         addNewTask(text)
-      
+        }
         
         tableView.reloadData()
         dismiss(animated: true, completion: nil)
@@ -104,28 +109,6 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
         TaskModel.getAllTasks() {
             data, response, error in
             do {
-                if let tasks = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [[String: Any]] {
-                    for task in tasks {
-                        if let taskObj = taskInfo.init(dict: task){
-                            self.items.append(taskObj)
-                            
-                            DispatchQueue.main.async{
-                                self.tableView.reloadData()
-                            }
-                        }
-                    }
-                    print(tasks)
-                }
-            } catch {
-                print("Something went wrong")
-            }
-        }
-    }
-    func addNewTask(_ text: String){
-        TaskModel.addTaskWithObjective(objective: text, completionHandler: {
-            data, response, error in
-            
-            do{
                 
                 if let tasks = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [[String: Any]]{
                     for task in tasks {
@@ -141,14 +124,44 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
                     
                 }
                 
+            } catch {
+                print("Something went wrong")
+            }
+        }
+    }
+    func addNewTask(_ text: String){
+        TaskModel.addTaskWithObjective(objective: text, completionHandler: {
+            data, response, error in
+            
+            do{
+                if let tasks = try JSONSerialization.jsonObject(with: data!) as? [String: Any]{
+                    
+                        if let taskObj = taskInfo.init(dict: tasks){
+                         
+                            DispatchQueue.main.async{
+                                self.items.append(taskObj)
+                                self.tableView.reloadData()
+                            }
+                        }
+
+                }
+                
             }catch{
                 print(error)
                 
             }
         })
     }
+    
+                                       
+    func updateTask(_ ip: Int, _ text:String ){
+    }
+    
+    func deleteTask(){
+        
+    }
+                                       
 }
-
 
 
 
