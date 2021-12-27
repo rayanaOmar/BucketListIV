@@ -11,15 +11,18 @@ import UIKit
 struct taskInfo {
     
     var objective: String
+    var id: Int
     
     
     init?(dict: [String: Any]){
-        guard let objective = dict["objective"] as? String
+        guard let objective = dict["objective"] as? String,
+              let id = dict["id"] as? Int
         else{
             return nil
         }
         
         self.objective = objective
+        self.id = id
     }
 }
 
@@ -80,10 +83,15 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        items.remove(at: indexPath.row)
-        deleteTask()
-        tableView.reloadData()
         
+        TaskModel.deleteTask(id: items[indexPath.row].id , completionHandler: {
+            data, response, error in
+            
+            DispatchQueue.main.async {
+                self.items.remove(at: indexPath.row)
+                self.tableView.reloadData()
+            }
+        })
     }
     
     //Function Section
@@ -143,7 +151,6 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
                                 self.tableView.reloadData()
                             }
                         }
-
                 }
                 
             }catch{
@@ -155,11 +162,30 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
     
                                        
     func updateTask(_ ip: Int, _ text:String ){
+        TaskModel.updateTask(id: ip, objective: text , completionHandler: {
+            data, response, error in
+            
+            do{
+                if let tasks = try JSONSerialization.jsonObject(with: data!) as? [String: Any]{
+                    
+                        if let taskObj = taskInfo.init(dict: tasks){
+                         
+                            DispatchQueue.main.async{
+                                self.items.append(taskObj)
+                                self.tableView.reloadData()
+                            }
+                        }
+                }
+                
+                
+                
+            }catch{
+                print(error)
+            }
+        })
+
     }
-    
-    func deleteTask(){
-        
-    }
+  
                                        
 }
 

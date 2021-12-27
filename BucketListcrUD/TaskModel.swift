@@ -19,20 +19,55 @@ class TaskModel {
     
     //add new tasks
     static func addTaskWithObjective(objective: String, completionHandler: @escaping(_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) {
-     // Create the url to request
-            if let urlToReq = URL(string: "https://saudibucketlistapi.herokuapp.com/tasks/") {
-                // Create an NSMutableURLRequest using the url. This Mutable Request will allow us to modify the headers.
-                var request = URLRequest(url: urlToReq)
-                // Set the method to POST
-                request.httpMethod = "POST"
-                // Create some bodyData and attach it to the HTTPBody
-                let bodyData = "objective=\(objective)"
-                request.httpBody = bodyData.data(using: .utf8)
-                // Create the session
-                let session = URLSession.shared
-                let task = session.dataTask(with: request as URLRequest, completionHandler: completionHandler)
-                task.resume()
-            }
+        // Create the url to request
+        if let urlToReq = URL(string: "https://saudibucketlistapi.herokuapp.com/tasks/") {
+            // Create an NSMutableURLRequest using the url. This Mutable Request will allow us to modify the headers.
+            var request = URLRequest(url: urlToReq)
+            // Set the method to POST
+            request.httpMethod = "POST"
+            // Create some bodyData and attach it to the HTTPBody
+            let bodyData = "objective=\(objective)"
+            request.httpBody = bodyData.data(using: .utf8)
+            // Create the session
+            let session = URLSession.shared
+            let task = session.dataTask(with: request as URLRequest, completionHandler: completionHandler)
+            task.resume()
+        }
     }
-    //update the task 
+    //update the task
+    static func updateTask(id: Int,objective: String, completionHandler: @escaping(_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) {
+        var request = URLRequest(url: URL(string: "https://saudibucketlistapi.herokuapp.com/tasks/\(id)/")!)
+        request.httpMethod = "PUT"
+        do {
+        let bodyData = "objective=\(objective)"
+        request.httpBody = bodyData.data(using: .utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest){ data, response, error in
+            
+            if error != nil {
+                completionHandler(nil, nil, error)
+            }else{
+                completionHandler(data, response, error)
+            }
+        }
+        task.resume()
+        }catch{
+            print(error.localizedDescription)
+        }
+    }
+    
+    //delete the task
+    static func deleteTask(id: Int, completionHandler: @escaping(_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) {
+        var request = URLRequest(url: URL(string: "https://saudibucketlistapi.herokuapp.com/tasks/\(id)/")!)
+        request.httpMethod = "DELETE"
+        
+        let bodyData = "id=\(id)"
+        request.httpBody = bodyData.data(using: .utf8)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest, completionHandler: completionHandler)
+        task.resume()
+    }
+    
+    
 }
