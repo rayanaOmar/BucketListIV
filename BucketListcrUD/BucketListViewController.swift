@@ -62,16 +62,19 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
             let addItemTableController = navigationController.topViewController as! AddItemTableViewController
             
             addItemTableController.delegate = self
+            addItemTableController.isUpdated = false
         }else if sender is IndexPath{
             let navigationController = segue.destination as! UINavigationController
             
             let addItemTableController = navigationController.topViewController as! AddItemTableViewController
             
             addItemTableController.delegate = self
+            addItemTableController.isUpdated = true
             
             let indexPath = sender as! IndexPath
             let item1 = items[indexPath.row]
             addItemTableController.item = item1.objective
+            addItemTableController.itemId = item1.id
             addItemTableController.indexPath = indexPath
             
         }
@@ -95,10 +98,10 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
     }
     
     //Function Section
-    func itemSaved(by controller: AddItemTableViewController, with text: String, at indexPath: IndexPath?) {
+    func itemSaved(by controller: AddItemTableViewController, with text: String, at id: Int, isUpdated: Bool) {
         
-        if let ip = indexPath{
-            updateTask(ip.row, text)
+        if isUpdated{
+            updateTask(id, text)
         }else{
         addNewTask(text)
         }
@@ -114,20 +117,21 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
     }
     
     func getAllTasks(){
+        items = []
         TaskModel.getAllTasks() {
             data, response, error in
             do {
                 
                 if let tasks = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [[String: Any]]{
                     for task in tasks {
-                        if let taskObj = taskInfo.init(dict: task){
+                        if let taskObj = taskInfo(dict: task){
                             
-                            DispatchQueue.main.async{
-                                self.items.append(taskObj)
-                                self.tableView.reloadData()
-                               
-                            }
+                            self.items.append(taskObj)
                         }
+                    }
+                    DispatchQueue.main.async{
+                        self.tableView.reloadData()
+                
                     }
                     
                 }
@@ -141,22 +145,7 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
         TaskModel.addTaskWithObjective(objective: text, completionHandler: {
             data, response, error in
             
-            do{
-                if let tasks = try JSONSerialization.jsonObject(with: data!) as? [String: Any]{
-                    
-                        if let taskObj = taskInfo.init(dict: tasks){
-                         
-                            DispatchQueue.main.async{
-                                self.items.append(taskObj)
-                                self.tableView.reloadData()
-                            }
-                        }
-                }
-                
-            }catch{
-                print(error)
-                
-            }
+            self.getAllTasks()
         })
     }
     
@@ -165,23 +154,9 @@ class BucketListViewController: UITableViewController , AddItemTableViewControll
         TaskModel.updateTask(id: ip, objective: text , completionHandler: {
             data, response, error in
             
-            do{
-                if let tasks = try JSONSerialization.jsonObject(with: data!) as? [String: Any]{
-                    
-                        if let taskObj = taskInfo.init(dict: tasks){
-                         
-                            DispatchQueue.main.async{
-                                self.items.append(taskObj)
-                                self.tableView.reloadData()
-                            }
-                        }
-                }
-                
-                
-                
-            }catch{
-                print(error)
-            }
+            print(response ?? "no response")
+            
+            self.getAllTasks()
         })
 
     }

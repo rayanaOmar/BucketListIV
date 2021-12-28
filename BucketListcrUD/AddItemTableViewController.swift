@@ -12,6 +12,8 @@ class AddItemTableViewController: UITableViewController {
     weak var delegate: AddItemTableViewControllerDelegate?
     var item: String?
     var indexPath: IndexPath?
+    var itemId = 0
+    var isUpdated = false
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.cancelButtonPressed(by: self)
     }
@@ -19,7 +21,7 @@ class AddItemTableViewController: UITableViewController {
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         let text = itemTextField.text!
         
-        delegate?.itemSaved(by: self, with: text, at: indexPath)
+        delegate?.itemSaved(by: self, with: text, at: itemId, isUpdated: isUpdated)
         
         
         

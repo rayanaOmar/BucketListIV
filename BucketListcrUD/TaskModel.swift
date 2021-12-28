@@ -36,22 +36,23 @@ class TaskModel {
     }
     //update the task
     static func updateTask(id: Int,objective: String, completionHandler: @escaping(_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) {
+        
         var request = URLRequest(url: URL(string: "https://saudibucketlistapi.herokuapp.com/tasks/\(id)/")!)
         request.httpMethod = "PUT"
         do {
-        let bodyData = "objective=\(objective)"
-        request.httpBody = bodyData.data(using: .utf8)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest){ data, response, error in
             
-            if error != nil {
-                completionHandler(nil, nil, error)
-            }else{
-                completionHandler(data, response, error)
-            }
-        }
-        task.resume()
+            
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            
+            let parameterDictionary = ["objective":objective]
+            let httpBody = try JSONSerialization.data(withJSONObject: parameterDictionary)
+            
+            request.httpBody = httpBody
+            
+            let session = URLSession.shared
+            let task = session.dataTask(with: request, completionHandler: completionHandler)
+            task.resume()
         }catch{
             print(error.localizedDescription)
         }
